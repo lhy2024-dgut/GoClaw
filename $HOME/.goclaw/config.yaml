@@ -1,0 +1,39 @@
+
+app:
+  name: "GoClaw"
+  version: "0.1.0"
+  port: 8080
+
+log:
+  level: "info"
+  file: ""
+  format: "text"
+
+database:
+  type: "sqlite"
+  path: "goclaw.db"
+
+ai:
+  provider: "qwen"
+  model: "qwen-plus"
+  api_key: "sk-bcd3bbc8abb241b2890fa7cb3f934247"
+  api_base: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  max_tokens: 2048
+  temperature: 0.7
+
+telegram:
+  bot_token: ""
+  webhook: ""
+
+discord:
+  bot_token: ""
+  guild_id: ""
+
+tools:
+  email:
+    imap_server: ""
+    username: ""
+    password: ""
+  calendar:
+    provider: "google"
+    api_key: ""
