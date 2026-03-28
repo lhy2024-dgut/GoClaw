@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TypeScript HTML App</title>
+  <style>
+    html, body {
+      overflow: hidden;
+      margin: 0;
+    }
+    html {
+      overscroll-behavior-x: none;
+      touch-action: none;
+    }
+    body {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    body > canvas:only-child {
+      width: 100vw;
+      height: 100vh;
+    }
+    #buttons {
+      position: fixed;
+      bottom: 250px;
+      left: 200px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 200px;
+      z-index: 1000;
+    }
+    #buttons button {
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #buttons button:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+    #chat {
+      position: fixed;
+      right: 200px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+    #chat input {
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 200px;
+    }
+    #chat button {
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #chat button:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+  </style>
+  <!-- Live2DCubismCore script -->
+  <script src = "./Core/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script type="module" crossorigin src="/assets/index-D1P3wHka.js"></script>
+</head>
+<body>
+  <div id="buttons">
+    <button data-group="Idle" data-index="0">动作1</button>
+    <button data-group="Idle" data-index="1">动作2</button>
+    <button data-group="Idle" data-index="2">动作3</button>
+    <button data-group="Idle" data-index="3">动作4</button>
+    <button data-group="Idle" data-index="4">动作5</button>
+    <button data-group="Idle" data-index="5">动作6</button>
+    <button data-group="Idle" data-index="6">动作7</button>
+    <button data-group="Idle" data-index="7">动作8</button>
+    <button data-group="Idle" data-index="8">动作9</button>
+    <button data-group="TapBody" data-index="0">触摸动作</button>
+  </div>
+  <div id="chat">
+    <input type="text" id="textInput" placeholder="输入文字转换为语音..." />
+    <button id="speakBtn">播放语音</button>
+  </div>
+</body>
+</html>
