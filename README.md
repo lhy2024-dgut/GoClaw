@@ -1,146 +1,138 @@
-[English](README.md) / [日本語](README.ja.md)
+# My-OpenClaw
 
----
+A minimal implementation of OpenClaw's Gateway architecture, built with **Go backend** and **React frontend**.
 
-# Cubism Web Samples
+## Features
 
-This is a sample implementation of an application that displays models output by Live2D Cubism Editor.
+- WebSocket-based real-time chat
+- Session management
+- Message history
+- Clean UI with React
+- Extensible architecture
 
-It is used in conjunction with the Cubism Web Framework and Live2D Cubism Core.
+## Quick Start
 
+### 1. Install Dependencies
 
-## License
+```bash
+# Install Go dependencies
+cd backend
+go mod tidy
 
-Please check the [license](LICENSE.md) before using this SDK.
-
-
-## Notices
-
-Please check the [notices](NOTICE.md) before using this SDK.
-
-
-## Compatibility with Cubism 5.3 new features and previous Cubism SDK versions
-
-This SDK is compatible with Cubism 5.3.  
-For SDK compatibility with new features in Cubism 5.3 Editor, please refer to [here](https://docs.live2d.com/en/cubism-sdk-manual/cubism-5-3-new-functions/).  
-For compatibility with previous versions of Cubism SDK, please refer to [here](https://docs.live2d.com/en/cubism-sdk-manual/compatibility-with-cubism-5-3/).
-
-
-
-## Directory structure
-
-```
-.
-├─ .vscode          # Project settings directory for Visual Studio Code
-├─ Core             # Directory containing Live2D Cubism Core
-├─ Framework        # Directory containing source code such as rendering and animation functions
-└─ Samples
-   ├─ Resources     # Directory containing resources such as model files and images
-   └─ TypeScript    # Directory containing TypeScript sample projects
+# Install React dependencies
+cd ../frontend
+npm install
 ```
 
+### 2. Start Backend
 
-## Live2D Cubism Core for Web
+```bash
+cd backend
+go run ./cmd/gateway
+```
 
-A library for loading the model.
+Gateway will start at `ws://127.0.0.1:18789/ws`
 
-This repository does not manage Cubism Core.
-Download the Cubism SDK for Web from [here](https://www.live2d.com/download/cubism-sdk/download-web/) and copy the files in the Core directory.
+### 3. Start Frontend
 
+```bash
+cd frontend
+npm run dev
+```
 
-## Development environment construction
+Frontend will start at `http://localhost:3000`
 
-1. Install [Node.js] and [Visual Studio Code]
-1. Open **the top directory of this SDK** in Visual Studio Code and install the recommended extensions
-    * In addition to pop-up notifications, you can check the others by typing `@recommended` from the Extensions tab
+### 4. Or Run Both
 
-### Operation check of sample demo
+```bash
+# Terminal 1 - Backend
+cd backend && go run ./cmd/gateway
 
-Enter `>Tasks: Run Task` in the command palette (*View > Command Palette...*) to display the task list.
+# Terminal 2 - Frontend
+cd frontend && npm run dev
+```
 
-1. Select `npm: install - Samples/TypeScript/Demo` from the task list to download the dependent packages
-1. Select `npm: build - Samples/TypeScript/Demo` from the task list to build the sample demo
-1. Select `npm: serve - Samples/TypeScript/Demo` from the task list to start the simple server for operation check
-1. Enter `http://localhost:5000` in the URL field of your browser to access it
-1. Enter `>Tasks: Terminate Task` from the command palette and select `npm: serve` to terminate the simple server
+## API Endpoints
 
-For other tasks, see [README.md](Samples/TypeScript/README.md) of the sample project.
+| Endpoint | Description |
+|----------|-------------|
+| `GET /` | Gateway info |
+| `GET /health` | Health check |
+| `GET /status` | Gateway status |
+| `WS /ws` | WebSocket connection |
 
-NOTE: Settings for debugging are described in `.vscode/tasks.json`.
+## WebSocket Protocol
 
-### Project debugging
+### Connect
+```json
+{
+  "type": "req",
+  "id": "1",
+  "method": "connect",
+  "params": {
+    "client": { "id": "web", "version": "1.0.0", "platform": "web" }
+  }
+}
+```
 
-Open **the top directory of this SDK** in Visual Studio Code and enter the *F5* key to start Debugger for Chrome.
+### Send Message
+```json
+{
+  "type": "req",
+  "id": "2",
+  "method": "chat.send",
+  "params": {
+    "session": "main",
+    "message": "Hello!"
+  }
+}
+```
 
-You can place breakpoints in Visual Studio Code to debug in conjunction with the Chrome browser.
+### Response
+```json
+{
+  "type": "res",
+  "id": "2",
+  "ok": true,
+  "payload": {
+    "messageId": "msg_123",
+    "content": "Hello! How can I help you?",
+    "session": "main"
+  }
+}
+```
 
-NOTE: Settings for debugging are described in `.vscode/launch.json`.
+## Project Structure
 
+```
+My-OpenClaw/
+├── backend/
+│   ├── cmd/gateway/main.go     # Entry point
+│   ├── internal/gateway/        # Gateway server
+│   └── pkg/types/              # Shared types
+├── frontend/
+│   ├── src/
+│   │   ├── App.tsx            # Main React app
+│   │   └── main.tsx           # React entry
+│   ├── index.html
+│   └── package.json
+├── live2d/                     # Live2D 桌面宠物
+└── README.md
+```
 
-## SDK manual
+## Next Steps
 
-[Cubism SDK Manual](https://docs.live2d.com/cubism-sdk-manual/top/)
+To extend this minimal version:
 
+1. **Add real LLM integration** - Replace mock agent with actual API calls
+2. **Add more methods** - `sessions.list`, `status.get`, etc.
+3. **Add authentication** - Token-based auth for remote connections
+4. **Add channels** - Telegram, Discord, Slack adapters
+5. **Add tools** - Shell execution, file operations, browser automation
+6. **Add skills** - SKILL.md-based capability extension
 
-## Changelog
+## References
 
-Samples : [CHANGELOG.md](CHANGELOG.md)
-
-Framework : [CHANGELOG.md](Framework/CHANGELOG.md)
-
-Core : [CHANGELOG.md](Core/CHANGELOG.md)
-
-
-## Development environment
-
-### Node.js
-
-* 25.4.0
-* 24.13.0
-
-
-## Operation environment
-
-| Platform | Browser | Version |
-| --- | --- | --- |
-| Android | Google Chrome | 139.0.7258.123 |
-| Android | Microsoft Edge | 139.0.3405.102 |
-| Android | Mozilla Firefox | 141.0.3 |
-| iOS / iPadOS | Google Chrome | 139.0.7258.76 |
-| iOS / iPadOS | Microsoft Edge | 139.0.3405.101 |
-| iOS / iPadOS | Mozilla Firefox | 142.0 |
-| iOS / iPadOS | Safari | 18.6 |
-| macOS | Google Chrome | 139.0.7258.128 |
-| macOS | Microsoft Edge | 139.0.3405.102 |
-| macOS | Mozilla Firefox | 141.0.3 |
-| macOS | Safari | 18.6 |
-| Windows | Google Chrome | 144.0.7559.97 |
-| Windows | Microsoft Edge | 144.0.3719.82 |
-| Windows | Mozilla Firefox | 147.0.1 |
-
-Note: You can start the server for operation check by running the `serve` script of `./Samples/TypeScript/Demo/package.json`.
-
-
-## Contributing
-
-There are many ways to contribute to the project: logging bugs, submitting pull requests on this GitHub, and reporting issues and making suggestions in Live2D Community.
-
-### Forking And Pull Requests
-
-We very much appreciate your pull requests, whether they bring fixes, improvements, or even new features. Note, however, that the wrapper is designed to be as lightweight and shallow as possible and should therefore only be subject to bug fixes and memory/performance improvements. To keep the main repository as clean as possible, create a personal fork and feature branches there as needed.
-
-### Bugs
-
-We are regularly checking issue-reports and feature requests at Live2D Community. Before filing a bug report, please do a search in Live2D Community to see if the issue-report or feature request has already been posted. If you find your issue already exists, make relevant comments and add your reaction.
-
-### Suggestions
-
-We're also interested in your feedback for the future of the SDK. You can submit a suggestion or feature request at Live2D Community. To make this process more effective, we're asking that you include more information to help define them more clearly.
-
-
-## Forum
-
-If you want to suggest or ask questions about how to use the Cubism SDK between users, please use the forum.
-
-- [Live2D Creator's Forum](https://community.live2d.com/)
-- [Live2D 公式クリエイターズフォーラム (Japanese)](https://creatorsforum.live2d.com/)
+- [OpenClaw Official](https://openclaw.ai)
+- [OpenClaw Documentation](https://docs.openclaw.ai)
+- [Gateway Protocol](https://docs.openclaw.ai/gateway/protocol)

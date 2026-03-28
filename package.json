@@ -1,0 +1,11 @@
+{
+  "name": "my-openclaw",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && go run ./cmd/gateway",
+    "install:all": "cd backend && go mod tidy && cd ../frontend && npm install"
+  }
+}
